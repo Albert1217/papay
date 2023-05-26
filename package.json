@@ -10,5 +10,11 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "\"Albert\"",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2",
+    "jshint": "^2.13.6",
+    "mongodb": "^3.2.6",
+    "nodemon": "^2.0.22"
+  }
 }
