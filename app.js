@@ -3,6 +3,7 @@
 console.log("Web Serverni boshlash");
 const express = require("express");
 const app = express();
+const router = require("./ router");
 
 // MongoDB choqirish
 const db = require("./server").db();
@@ -20,5 +21,5 @@ app.set("views", "views");
 app.set("view engine", "ejs");
 
 // 4 Routing code
-
+app.use("/", router);
 module.exports = app;
