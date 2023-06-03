@@ -30,8 +30,6 @@ class Member {
     }
   }
 
-  ///
-
   async loginData(input) {
     try {
       const member = await this.memberModel
@@ -51,9 +49,6 @@ class Member {
           mb_nick: input.mb_nick,
         })
         .exec();
-
-      //nima uchun password qaytmayabdi?
-      //javob: schema modulni ichidagi mb_password select:false bo'lgani uchun
     } catch (err) {
       throw err;
     }
