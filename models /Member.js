@@ -2,6 +2,7 @@ const MemberModel = require("../schema/member.model");
 const Definer = require("../lib/mistake");
 const assert = require("assert");
 const bcrypt = require("bcryptjs");
+
 class Member {
   constructor() {
     this.memberModel = MemberModel;
@@ -11,7 +12,6 @@ class Member {
       const salt = await bcrypt.genSalt();
 
       input.mb_password = await bcrypt.hash(input.mb_password, salt);
-
       const new_member = new this.memberModel(input);
 
       let result;
