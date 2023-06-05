@@ -1,4 +1,4 @@
-const Member = require("../models /Member");
+const Member = require("../models/Member");
 
 let memberController = module.exports;
 
@@ -7,6 +7,7 @@ memberController.signup = async (req, res) => {
     console.log("POST: cont/signup");
     const data = req.body;
     const member = new Member();
+
     const new_member = await member.signupData(data);
 
     //TODO: AUTHENTICATE BASED ON JWT

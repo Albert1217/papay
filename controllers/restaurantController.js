@@ -1,5 +1,5 @@
 const session = require("express-session");
-const Member = require("../models /Member");
+const Member = require("../models/Member");
 
 let restaurantController = module.exports;
 
