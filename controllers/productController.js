@@ -1,6 +1,6 @@
 const assert = require("assert");
 const Definer = require("../lib/mistake");
-const Product = require("../models/product");
+const Product = require("../models/Product");
 
 let productController = module.exports;
 
