@@ -15,7 +15,32 @@ class Product {
 
       assert.ok(result, Definer.product_err1);
       return result;
-      return true;
+    } catch (err) {
+      throw err;
+    }
+  }
+
+  async updateChosenProductData(id, updated_data, mb_id) {
+    try {
+      id = shapeIntoMongooseObjectId(id);
+      mb_id = shapeIntoMongooseObjectId(mb_id);
+
+      const result = await this.productModel
+        .findOneAndUpdate(
+          {
+            _id: id,
+            restaurant_mb_id: mb_id,
+          },
+          updated_data,
+          {
+            runValidators: true,
+            lean: true,
+            returnDocument: "after",
+          }
+        )
+        .exec();
+      assert.ok(result, Definer.general_err1);
+      return result;
     } catch (err) {
       throw err;
     }
