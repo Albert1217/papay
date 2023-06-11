@@ -14,7 +14,7 @@ const productSchema = new mongoose.Schema(
       type: String,
       required: true,
       enum: {
-        vaalues: product_collection_enums,
+        values: product_collection_enums,
         message: "{VALUE} is not among permitted num values",
       },
     },
@@ -82,11 +82,11 @@ const productSchema = new mongoose.Schema(
     },
   },
   { timestamps: true }
-); // createdAt, updatedAt
+);
 
 productSchema.index(
   { restaurant_mb_id: 1, product_name: 1, product_size: 1, product_volume: 1 },
   { unique: true }
 );
 
-module.exports = mongoose.model("Product", productScheme);
+module.exports = mongoose.model("Product", productSchema);

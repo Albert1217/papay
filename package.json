@@ -32,6 +32,7 @@
     "uuid": "^8.3.2"
   },
   "devDependencies": {
-    "@types/bcryptjs": "^2.4.2"
+    "@types/bcryptjs": "^2.4.2",
+    "jshint": "^2.13.6"
   }
 }
