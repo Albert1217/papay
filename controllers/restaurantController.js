@@ -1,6 +1,8 @@
 const session = require("express-session");
 const Member = require("../models/Member");
 const Product = require("../models/Product");
+const Definer = require("../lib/mistake");
+const assert = require("assert");
 
 let restaurantController = module.exports;
 
@@ -39,12 +41,16 @@ restaurantController.getSignupMyRestaurant = async (req, res) => {
 restaurantController.signupProcess = async (req, res) => {
   try {
     console.log("POST: cont/signupProcess");
-    const data = req.body;
+    assert(req.file, Definer.general_err3);
+    let new_member = req.body;
+    new_member.mb_type = "RESTAURANT";
+    new_member.mb_image = req.file.path;
     const member = new Member();
 
-    const new_member = await member.signupData(data);
+    const result = await member.signupData(new_member);
+    assert(result, Definer.general_err1);
 
-    req.session.member = new_member;
+    req.session.member = result;
     res.redirect("/resto/products/menu");
   } catch (err) {
     console.log(`ERROR,cont/signupProcess, ${err.message}`);

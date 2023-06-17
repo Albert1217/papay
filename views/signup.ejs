@@ -4,6 +4,7 @@
 
 <body>
   <form
+    onsubmit="return validateSignUpForm()"
     class="login_container"
     action="/resto/sign-up"
     method="POST"
@@ -26,6 +27,7 @@
           <input
             type="text"
             name="mb_nick"
+            class="mb_nick"
             placeholder="Foydalanuvching ismi"
             value=""
             required
@@ -36,6 +38,7 @@
           <input
             type="text"
             name="mb_phone "
+            class="mb_phone"
             placeholder="Telefon raqam"
             value=""
             required
@@ -48,6 +51,7 @@
           <input
             type="password"
             name="mb_password"
+            class="mb_password"
             placeholder="passwordni kiriting"
             value=""
             required
@@ -58,6 +62,7 @@
           <input
             type="password"
             name="mb_confirim_password"
+            class="mb_confirim_password"
             placeholder="passwordni tasdiqlash"
             value=""
             required
@@ -76,13 +81,12 @@
                 value="Rasmni tanglang"
                 disabled="disabled"
               />
-              <label>Rasmni Yuklash</label>
+              <label for="input_file">Rasm Yuklash</label>
               <input
                 type="file"
                 id="input_file"
-                value=""
                 name="restaurant_img"
-                placeholder="passwordni tasdiqlash"
+                value=""
                 class="upload-hidden form-control-file restaurant_img"
               />
             </div>
@@ -99,5 +103,60 @@
     </div>
   </form>
 </body>
+
+<script>
+  $(function () {
+    let fileTarget = $(".filebox .upload-hidden");
+    let filename;
+    fileTarget.on("change", function () {
+      if (window.FileReader) {
+        const uploading_file = $(this)[0].files[0];
+        const fileType = uploading_file["type"];
+        const validImageTypes = ["image/jpg", "image/jpeg", "image/png"];
+        if (!validImageTypes.includes(fileType)) {
+          alert(
+            "Iltimos ruxsat etilgan formatdagi rasmlarni yuklang: jpg, jpeg va png"
+          );
+        } else {
+          if (uploading_file) {
+            console.log(URL.createObjectURL(uploading_file));
+            $(".upload_img_frame")
+              .attr("src", URL.createObjectURL(uploading_file))
+              .addClass("success");
+          }
+          filename = uploading_file.name;
+        }
+      }
+      $(this).siblings(".upload-name").val(filename);
+    });
+  });
+
+  function validateSignUpForm() {
+    const mb_nick = $(".mb_nick").val();
+    const mb_phone = $(".mb_phone").val();
+    const mb_password = $(".mb_password").val();
+    const mb_confirim_password = $(".mb_confirim_password").val();
+    const retaurant_img = $(".restaurant_img").get(0).files[0] ?? null;
+
+    if (
+      mb_nick == "" ||
+      mb_password == "" ||
+      mb_confirm_password == "" ||
+      mb_phone == ""
+    ) {
+      alert("Iltimos hamma ma'lumotlarni kiriting");
+      return false;
+    } else if (mb_password !== mb_confirm_password) {
+      alert("Iltimos passwordni to'g'ri kiriting");
+      return false;
+    }
+    if (!restaurant_img) {
+      alert("Iltimos rasmni yuklang!");
+      return false;
+    }
+
+    return false;
+  }
+</script>
 
 <%- include('includes/footer') %>
