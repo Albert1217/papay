@@ -37,7 +37,7 @@
           <label>Telefon raqam </label>
           <input
             type="text"
-            name="mb_phone "
+            name="mb_phone"
             class="mb_phone"
             placeholder="Telefon raqam"
             value=""
@@ -61,8 +61,8 @@
           <label>Passwordni tasdiqlash</label>
           <input
             type="password"
-            name="mb_confirim_password"
-            class="mb_confirim_password"
+            name="mb_confirm_password"
+            class="mb_confirm_password"
             placeholder="passwordni tasdiqlash"
             value=""
             required
@@ -72,7 +72,7 @@
 
       <div class="login_input_frame">
         <div class="media-frame">
-          <img class="upload_img_frame" src="/images/restaurant_resto1.jpeg" />
+          <img class="upload_img_frame" src="/images/restaurant_resto.jpeg" />
           <div class="upload_container">
             <span class="media_text">Taom Rasmi</span>
             <div class="filebox bs3-primary preview-image">
@@ -135,14 +135,14 @@
     const mb_nick = $(".mb_nick").val();
     const mb_phone = $(".mb_phone").val();
     const mb_password = $(".mb_password").val();
-    const mb_confirim_password = $(".mb_confirim_password").val();
+    const mb_confirm_password = $(".mb_confirm_password").val();
     const retaurant_img = $(".restaurant_img").get(0).files[0] ?? null;
 
     if (
       mb_nick == "" ||
+      mb_phone == "" ||
       mb_password == "" ||
-      mb_confirm_password == "" ||
-      mb_phone == ""
+      mb_confirm_password == ""
     ) {
       alert("Iltimos hamma ma'lumotlarni kiriting");
       return false;
@@ -155,7 +155,7 @@
       return false;
     }
 
-    return false;
+    return true;
   }
 </script>
 
