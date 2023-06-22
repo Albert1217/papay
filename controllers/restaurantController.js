@@ -24,7 +24,7 @@ restaurantController.getMyRestaurantProducts = async (req, res) => {
     res.render("restaurant-menu", { restaurant_data: data });
   } catch (err) {
     console.log(`ERROR,cont/getMyRestaurantProducts, ${err.message}`);
-    req.redirect("/resto");
+    res.redirect("/resto");
   }
 };
 
