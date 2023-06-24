@@ -304,6 +304,7 @@
           reader.onload = function () {
             $(`#image_section_${order}`).attr("src", reader.result);
           };
+          reader.readAsDataURL(file);
           }
         }
       }
