@@ -6,6 +6,7 @@ memberController.signup = async (req, res) => {
   try {
     console.log("POST: cont/signup");
     const data = req.body;
+
     const member = new Member();
 
     const new_member = await member.signupData(data);

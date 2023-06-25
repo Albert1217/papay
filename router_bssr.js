@@ -39,7 +39,7 @@ router_bssr.post(
 );
 
 router_bssr.get(
-  "/all-restaurants",
+  "/all-restaurant",
   restaurantController.validateAdmin,
   restaurantController.getAllRestaurants
 );
