@@ -48,8 +48,8 @@ memberController.login = async (req, res) => {
 };
 
 memberController.logout = (req, res) => {
-  console.log("GET cont.logout");
-  res.send("logout  sahifadasiz");
+  console.log("GET cont/logout");
+  res.send("logout sahifadasiz");
 };
 
 memberController.createToken = (result) => {
@@ -66,6 +66,21 @@ memberController.createToken = (result) => {
 
     assert.ok(token, Definer.auth_err2);
     return token;
+  } catch (err) {
+    throw err;
+  }
+};
+
+memberController.checkMyAutentication = (req, res) => {
+  try {
+    console.log("GET cont/checkMyAutentication");
+    let token = req.cookies["access_token"];
+    console.log("token:::", token);
+
+    const member = token ? jwt.verify(token, process.env.SECRET_TOKEN) : null;
+    assert.ok(token, Definer.auth_err2);
+
+    res.json({ state: "success", data: member });
   } catch (err) {
     throw err;
   }
