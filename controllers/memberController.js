@@ -2,6 +2,7 @@ const Member = require("../models/Member");
 const jwt = require("jsonwebtoken");
 const assert = require("assert");
 const Definer = require("../lib/mistake");
+const { access } = require("fs");
 
 let memberController = module.exports;
 
@@ -47,9 +48,10 @@ memberController.login = async (req, res) => {
   }
 };
 
-memberController.logout = (req, res) => {
+memberController.logout = (_req, res) => {
   console.log("GET cont/logout");
-  res.send("logout sahifadasiz");
+  res.cookie("access_token", null, { maxAge: 0, httpOnly: true });
+  res.json({ state: "succeed", data: "logout successfully!" });
 };
 
 memberController.createToken = (result) => {
@@ -83,5 +85,31 @@ memberController.checkMyAutentication = (req, res) => {
     res.json({ state: "success", data: member });
   } catch (err) {
     throw err;
+  }
+};
+
+memberController.getChosenMember = async (req, res) => {
+  try {
+    console.log("GET cont/checkMyAutentication");
+    const id = req.params.id;
+
+    const member = new Member();
+    const result = await member.getChosenMemberData(req.member, id);
+
+    res.json({ state: "succeed", data: member });
+  } catch (err) {
+    console.log(`ERROR, cont/login, ${err.message}`);
+    res.json({ state: "fail", message: err.message });
+  }
+};
+
+memberController.retrieveAuthMember = (req, res, next) => {
+  try {
+    const token = req.cookies["access_token"];
+    req.member = token ? jwt.verify(token, process.env.SECRET_TOKEN) : null;
+    next();
+  } catch (err) {
+    console.log(`ERROR, cont/login, ${err.message}`);
+    next();
   }
 };
