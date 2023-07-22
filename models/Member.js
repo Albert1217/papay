@@ -3,7 +3,7 @@ const Definer = require("../lib/mistake");
 const assert = require("assert");
 const bcrypt = require("bcryptjs");
 const { shapeIntoMongooseObjectId } = require("../lib/config");
-const View = require("./View");
+const View = require("../models/View");
 
 class Member {
   constructor() {
@@ -72,6 +72,7 @@ class Member {
         .aggregate([
           { $match: { _id: id, mb_status: "ACTIVE" } },
           { $unset: "mb_password" },
+          // todo: check auth member product likes
         ])
         .exec();
 

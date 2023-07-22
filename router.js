@@ -19,10 +19,23 @@ router.get(
 );
 
 //Product related routers
+// Product related routers
 router.post(
   "/products",
   memberController.retrieveAuthMember,
   productController.getAllProducts
+);
+
+router.post(
+  "/products",
+  memberController.retrieveAuthMember,
+  productController.getAllProducts
+);
+
+router.get(
+  "/products/:id",
+  memberController.retrieveAuthMember,
+  productController.getChosenProduct
 );
 
 module.exports = router;
