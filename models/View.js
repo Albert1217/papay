@@ -52,16 +52,16 @@ class View {
     }
   }
 
-  async insertMemberview(view_ref_id, group_type) {
+  async insertMemberView(view_ref_id, group_type) {
     try {
       const new_view = new this.viewModel({
         mb_id: this.mb_id,
         view_ref_id: view_ref_id,
-        view_group: view_group,
+        view_group: group_type,
       });
       const result = await new_view.save();
 
-      // target items view sonini bittaga oshiramiz
+      //target items view sonini bittaga oshiramiz
       await this.modifyItemViewCounts(view_ref_id, group_type);
 
       return result;
@@ -86,7 +86,7 @@ class View {
             .exec();
           break;
         case "product":
-          result = await this.productModel
+          await this.productModel
             .findByIdAndUpdate(
               {
                 _id: view_ref_id,

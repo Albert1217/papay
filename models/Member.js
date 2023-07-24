@@ -89,16 +89,18 @@ class Member {
       const mb_id = shapeIntoMongooseObjectId(member._id);
 
       const view = new View(mb_id);
-      // valadition needed
+
+      //validation needed
       const isValid = await view.validateChosenTarget(view_ref_id, group_type);
       assert.ok(isValid, Definer.general_err2);
 
-      // loggged user has seen target before
+      // logged user has seen target before
       const doesExist = await view.checkViewExistence(view_ref_id);
-      console.log("doesExist", doesExist);
-
       if (!doesExist) {
-        const result = await view.insertMemberview(view_ref_id, group_type);
+        console.log("demak ushbu user tomonidan bu member oldin ko'rilmagan:");
+      }
+      if (!doesExist) {
+        const result = await view.insertMemberView(view_ref_id, group_type);
         assert.ok(result, Definer.general_err1);
       }
       return true;
