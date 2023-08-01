@@ -2,7 +2,11 @@ const MemberModel = require("../schema/member.model");
 const Definer = require("../lib/mistake");
 const assert = require("assert");
 const bcrypt = require("bcryptjs");
-const { shapeIntoMongooseObjectId } = require("../lib/config");
+const {
+  shapeIntoMongooseObjectId,
+  look_up_member_following,
+  look_up_member_viewed,
+} = require("../lib/config");
 const View = require("../models/View");
 
 class Member {
