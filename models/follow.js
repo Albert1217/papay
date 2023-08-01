@@ -4,7 +4,7 @@ const Definer = require("../lib/mistake");
 const assert = require("assert");
 const {
   shapeIntoMongooseObjectId,
-  look_up_member_following,
+  lookup_auth_member_following,
 } = require("../lib/config");
 
 class Follow {
@@ -98,6 +98,7 @@ class Follow {
       const follow_id = shapeIntoMongooseObjectId(inquiry.mb_id),
         page = inquiry.page * 1,
         limit = inquiry.limit * 1;
+
       let aggregateQuery = [
         { $match: { follow_id: follow_id } },
         { $sort: { createdAt: -1 } },
@@ -115,7 +116,7 @@ class Follow {
       ];
 
       if (member && member._id === inquiry.mb_id) {
-        aggregateQuery.push(look_up_member_following(follow_id, "follows"));
+        aggregateQuery.push(lookup_auth_member_following(follow_id, "follows"));
       }
       const result = await this.followModel.aggregate(aggregateQuery).exec();
       assert.ok(result, Definer.follow_err3);
@@ -126,6 +127,6 @@ class Follow {
   }
 }
 
-// 16:46
+// 38: 27 32 dars
 
 module.exports = Follow;
