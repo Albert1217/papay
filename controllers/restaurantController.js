@@ -27,7 +27,7 @@ restaurantController.getChosenRestaurant = async (req, res) => {
       restaurant = new Restaurant(),
       result = await restaurant.getChosenRestaurantData(req.member, id);
 
-    res.json({ state: "success", data: "result" });
+    res.json({ state: "success", data: result });
   } catch (err) {
     console.log(`ERROR, cont/getChosenRestaurant, ${err.message}`);
     res.json({ state: "fail", message: err.message });

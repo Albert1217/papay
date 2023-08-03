@@ -5,8 +5,10 @@ const bcrypt = require("bcryptjs");
 const {
   shapeIntoMongooseObjectId,
   lookup_auth_member_following,
+  look_up_member_following,
 } = require("../lib/config");
 const View = require("../models/View");
+const Like = require("../models/Like");
 
 class Member {
   constructor() {
@@ -22,7 +24,7 @@ class Member {
         result = await new_member.save();
       } catch (mongo_err) {
         console.log(mongo_err);
-        throw new Error(Definer.auth_err1);
+        throw new Error(Definer.mongo_validation_err1);
       }
 
       result.mb_password = "";
@@ -32,6 +34,8 @@ class Member {
       throw err;
     }
   }
+
+  //
 
   async loginData(input) {
     try {
@@ -60,12 +64,12 @@ class Member {
     }
   }
 
+  //
+
   async getChosenMemberData(member, id) {
     try {
       const auth_mb_id = shapeIntoMongooseObjectId(member?._id);
       id = shapeIntoMongooseObjectId(id);
-
-      console.log("member::::", member);
 
       let aggregateQuery = [
         { $match: { _id: id, mb_status: "ACTIVE" } },
@@ -75,7 +79,7 @@ class Member {
       if (member) {
         await this.viewChosenItemByMember(member, id, "member");
         // todo: check auth member liked the chosen target
-        aggregateQuery.push(lookup_auth_member_following(auth_mb_id, "member"));
+        aggregateQuery.push(look_up_member_following(auth_mb_id, "member"));
       }
 
       const result = await this.memberModel.aggregate(aggregateQuery).exec();
@@ -96,13 +100,13 @@ class Member {
 
       //validation needed
       const isValid = await view.validateChosenTarget(view_ref_id, group_type);
+      console.log("isValid:::", isValid);
       assert.ok(isValid, Definer.general_err2);
 
       // logged user has seen target before
       const doesExist = await view.checkViewExistence(view_ref_id);
-      if (!doesExist) {
-        console.log("demak ushbu user tomonidan bu member oldin ko'rilmagan:");
-      }
+      console.log("doesExist:::", doesExist);
+
       if (!doesExist) {
         const result = await view.insertMemberView(view_ref_id, group_type);
         assert.ok(result, Definer.general_err1);
@@ -112,7 +116,37 @@ class Member {
       throw err;
     }
   }
-}
 
+  //
+
+  async likeChosenItemByMember(member, like_ref_id, group_type) {
+    try {
+      like_ref_id = shapeIntoMongooseObjectId(like_ref_id);
+      const mb_id = shapeIntoMongooseObjectId(member._id);
+
+      const like = new Like(mb_id);
+      const isValid = await like.validateTargetItem(like_ref_id, group_type);
+
+      assert.ok(isValid, Definer.general_err2);
+
+      // doesExist
+      const doesExist = await like.checkLikeExistence(like_ref_id);
+      console.log("doesExist:::", doesExist);
+
+      let data = doesExist
+        ? await like.removeMemberLike(like_ref_id, group_type)
+        : await like.insertMembeLike(like_ref_id, group_type);
+      assert.ok(data, Definer.general_err1);
+
+      const result = {
+        like_group: data.like_group,
+        like_ref_id: data.like_ref_id,
+        like_status: doesExist ? 0 : 1,
+      };
+      return result;
+    } catch (err) {
+      throw err;
+    }
+  }
+}
 module.exports = Member;
-// console.log("isValid:::", isValid);

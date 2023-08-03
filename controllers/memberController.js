@@ -89,7 +89,7 @@ memberController.logout = (req, res) => {
 
 memberController.getChosenMember = async (req, res) => {
   try {
-    console.log("POST:cont/ChosenMember");
+    console.log("GET cont/ChosenMember");
     const id = req.params.id;
 
     const member = new Member();
@@ -97,6 +97,28 @@ memberController.getChosenMember = async (req, res) => {
     res.json({ state: "success", data: result });
   } catch (err) {
     console.log(`ERROR, cont/ChosenMember, ${err.message}`);
+    res.json({ state: "fail", message: err.message });
+  }
+};
+
+memberController.likeMemberChosen = async (req, res) => {
+  try {
+    console.log("POST cont/likeMemberChosen");
+    assert.ok(req.member, Definer.auth_err5);
+
+    const member = new Member(),
+      like_ref_id = req.body.like_ref_id,
+      group_type = req.body.group_type;
+
+    const result = await member.likeChosenItemByMember(
+      req.member,
+      like_ref_id,
+      group_type
+    );
+
+    res.json({ state: "success", data: result });
+  } catch (err) {
+    console.log(`ERROR, cont/likeMemberChosen, ${err.message}`);
     res.json({ state: "fail", message: err.message });
   }
 };
