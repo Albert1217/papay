@@ -98,7 +98,7 @@ class Like {
               {
                 _id: like_ref_id,
               },
-              { $inc: { mb_likes: 1 } }
+              { $inc: { mb_likes: modifier } }
             )
             .exec();
           break;
@@ -108,7 +108,7 @@ class Like {
               {
                 _id: like_ref_id,
               },
-              { $inc: { product_likes: 1 } }
+              { $inc: { product_likes: modifier } }
             )
             .exec();
           break;
@@ -119,7 +119,7 @@ class Like {
               {
                 _id: like_ref_id,
               },
-              { $inc: { art_likes: 1 } }
+              { $inc: { art_likes: modifier } }
             )
             .exec();
           break;

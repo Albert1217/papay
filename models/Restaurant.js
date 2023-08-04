@@ -1,7 +1,10 @@
 const assert = require("assert");
 const MemberModel = require("../schema/member.model");
 const Definer = require("../lib/mistake");
-const { shapeIntoMongooseObjectId } = require("../lib/config");
+const {
+  shapeIntoMongooseObjectId,
+  look_up_member_liked,
+} = require("../lib/config");
 const Member = require("../models/Member");
 
 class Restaurant {
@@ -37,6 +40,7 @@ class Restaurant {
 
       aggregationQuery.push({ $skip: (data.page - 1) * data.limit });
       aggregationQuery.push({ $limit: data.limit });
+      aggregationQuery.push(look_up_member_liked(auth_mb_id));
       // todo: check auth member product liked the chosen target
 
       const result = await this.memberModel.aggregate(aggregationQuery).exec();

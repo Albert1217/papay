@@ -78,7 +78,7 @@ class Member {
 
       if (member) {
         await this.viewChosenItemByMember(member, id, "member");
-        // todo: check auth member liked the chosen target
+        aggregateQuery.push(look_up_member_liked(auth_mb_id));
         aggregateQuery.push(look_up_member_following(auth_mb_id, "member"));
       }
 
